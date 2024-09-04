@@ -1,9 +1,10 @@
 package com.example.CurdOfUsersWithSolid.mappers;
 
 import com.example.CurdOfUsersWithSolid.dtos.RequestDto;
+import com.example.CurdOfUsersWithSolid.dtos.ResponseDto;
 
-public interface GenericMapper<T, R> {
+public interface GenericMapper<T> {
      T toEntity(RequestDto dto);
 
-     R toDto(T entity);
+     ResponseDto toDto(T entity);
 }

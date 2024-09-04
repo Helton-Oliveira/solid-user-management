@@ -12,6 +12,6 @@ public interface UserRepositoryService {
 
     public ResponseDto saveUser(RequestDto user);
 
-    public User updateUser(RequestDto dto, User user);
+    public ResponseDto updateUser(RequestDto dto, User user);
 
 }
