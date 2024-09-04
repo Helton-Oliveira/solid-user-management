@@ -5,12 +5,13 @@ import lombok.*;
 
 @Entity
 @Table(name = "USERS")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name", unique = true)
@@ -29,7 +30,7 @@ public class User {
     private String phone;
 
     @Column(name = "active")
-    private String active;
+    private Boolean active = true;
 
 }
 
