@@ -15,4 +15,4 @@ public record CreateUserDto(
         String cpf,
         @NotBlank
         String phone
-) implements RequestDto {}
+) {}

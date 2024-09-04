@@ -6,4 +6,4 @@ public record UpdateUserDto(
         @NotBlank
         String email,
         String password
-) implements RequestDto{ }
+) { }

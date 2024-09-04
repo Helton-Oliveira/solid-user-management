@@ -1,49 +1,40 @@
 package com.example.CurdOfUsersWithSolid.repository;
 
-import com.example.CurdOfUsersWithSolid.dtos.RequestDto;
-import com.example.CurdOfUsersWithSolid.dtos.ResponseDto;
-import com.example.CurdOfUsersWithSolid.dtos.UserResponseDto;
-import com.example.CurdOfUsersWithSolid.entity.User;
-import com.example.CurdOfUsersWithSolid.mappers.GenericMapper;
-import com.example.CurdOfUsersWithSolid.mappers.UserMapperImpl;
-import lombok.NoArgsConstructor;
+import com.example.CurdOfUsersWithSolid.domain.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@NoArgsConstructor
-@Component
+@Repository
 public class UserRepositoryServiceImpl implements UserRepositoryService {
 
+    @Autowired
     private UserRepository repository;
 
-    private GenericMapper<User> mapper;
-
-    @Autowired
-    public UserRepositoryServiceImpl(UserRepository repository, UserMapperImpl mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
+    @Override
+    public List<User> getAllUsers() {
+        return repository.findAllByActiveTrue()
+                .stream()
+                .map(e ->
+                        new User(e.getId(),
+                                e.getName(),
+                                e.getEmail(),
+                                e.getPassword(),
+                                e.getCpf(),
+                                e.getPhone(),
+                                e.getActive())
+                ).toList();
     }
 
     @Override
-    public List<ResponseDto> getAllUsers() {
-        return repository.findAll().stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
+    public User getOneUser(Long id) {
+        return repository.findById(id).orElseThrow();
     }
 
     @Override
-    public ResponseDto saveUser(RequestDto req) {
-        User entity = mapper.toEntity(req);
-        repository.save(entity);
-
-        return mapper.toDto(entity);
+    public User saveUser(User user) {
+        return repository.save(user);
     }
 
-    @Override
-    public ResponseDto updateUser(RequestDto dto, User user) {
-        return null;
-    }
 }

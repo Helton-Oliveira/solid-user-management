@@ -1,17 +1,15 @@
 package com.example.CurdOfUsersWithSolid.repository;
 
-import com.example.CurdOfUsersWithSolid.dtos.RequestDto;
-import com.example.CurdOfUsersWithSolid.dtos.ResponseDto;
-import com.example.CurdOfUsersWithSolid.entity.User;
+import com.example.CurdOfUsersWithSolid.domain.entity.User;
 
 import java.util.List;
 
 public interface UserRepositoryService {
 
-    public List<ResponseDto> getAllUsers();
+    List<User> getAllUsers();
 
-    public ResponseDto saveUser(RequestDto user);
+    User getOneUser(Long id);
 
-    public ResponseDto updateUser(RequestDto dto, User user);
+    User saveUser(User user);
 
 }

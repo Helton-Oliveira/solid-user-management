@@ -1,16 +1,17 @@
 package com.example.CurdOfUsersWithSolid.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public record UserResponseDto(
         Long id,
         String name,
         String email,
-        @JsonIgnore
-        String password,
         String cpf,
         String phone
-) implements ResponseDto{
+) {
+        public UserResponseDto(Long id, String name, String email, String cpf, String phone) {
+                this.id = id;
+                this.name = name;
+                this.email = email;
+                this.cpf = cpf;
+                this.phone = phone;
+        }
 }
