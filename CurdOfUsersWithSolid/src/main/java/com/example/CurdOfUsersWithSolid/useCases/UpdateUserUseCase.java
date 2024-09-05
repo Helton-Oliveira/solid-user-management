@@ -1,7 +1,7 @@
 package com.example.CurdOfUsersWithSolid.useCases;
 
 import com.example.CurdOfUsersWithSolid.domain.entity.User;
-import com.example.CurdOfUsersWithSolid.repository.UserRepositoryService;
+import com.example.CurdOfUsersWithSolid.repository.Connection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +12,10 @@ import java.util.Map;
 public class UpdateUserUseCase {
 
     @Autowired
-    private UserRepositoryService repositoryService;
+    private Connection connection;
 
     public User execute(Long id, String firsCamp, String secondCamp) {
-        var entityToUpdate = repositoryService.getOneUser(id);
+        var entityToUpdate = connection.getOneUser(id);
 
         Map<String, String> map = new HashMap<String, String>();
 
@@ -28,6 +28,6 @@ public class UpdateUserUseCase {
         }
 
         entityToUpdate.updateInfo(map);
-        return repositoryService.saveUser(entityToUpdate);
+        return connection.saveUser(entityToUpdate);
     }
 }

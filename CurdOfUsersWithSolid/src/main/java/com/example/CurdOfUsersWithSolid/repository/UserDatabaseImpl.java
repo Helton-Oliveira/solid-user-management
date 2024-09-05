@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class UserRepositoryServiceImpl implements UserRepositoryService {
+public class UserDatabaseImpl implements Connection {
 
     @Autowired
     private UserRepository repository;
@@ -17,13 +17,15 @@ public class UserRepositoryServiceImpl implements UserRepositoryService {
         return repository.findAllByActiveTrue()
                 .stream()
                 .map(e ->
-                        new User(e.getId(),
+                        new User (
+                                e.getId(),
                                 e.getName(),
                                 e.getEmail(),
                                 e.getPassword(),
                                 e.getCpf(),
                                 e.getPhone(),
-                                e.getActive())
+                                e.getActive()
+                        )
                 ).toList();
     }
 

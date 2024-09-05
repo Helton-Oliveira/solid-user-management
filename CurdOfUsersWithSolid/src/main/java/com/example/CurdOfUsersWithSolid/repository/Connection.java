@@ -4,7 +4,7 @@ import com.example.CurdOfUsersWithSolid.domain.entity.User;
 
 import java.util.List;
 
-public interface UserRepositoryService {
+public interface Connection {
 
     List<User> getAllUsers();
 
