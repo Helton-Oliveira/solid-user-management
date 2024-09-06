@@ -3,10 +3,10 @@ package com.example.CurdOfUsersWithSolid.Controller;
 import com.example.CurdOfUsersWithSolid.dtos.CreateUserDto;
 import com.example.CurdOfUsersWithSolid.dtos.UpdateUserDto;
 import com.example.CurdOfUsersWithSolid.dtos.UserResponseDto;
+import com.example.CurdOfUsersWithSolid.useCases.factory.UseCaseFactory;
 import com.example.CurdOfUsersWithSolid.useCases.useCasesAbstractions.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
@@ -19,29 +19,24 @@ import java.lang.reflect.InvocationTargetException;
 @RequestMapping("/users")
 public class UserController {
 
-    private final CreateUserUseCase createUserUseCase;
-    private final GetAllUsersUseCase getAllUsersUseCase;
-    private final GetOneUserUseCase getOneUserUseCase;
-    private final UpdateUserUseCase updateUserUseCase;
-    private final DeleteUserUseCase deleteUserUseCase;
+    private final RegisterUserUseCase register;
+    private final GetOneUserUseCase getOne;
+    private final GetAllUsersUseCase getAll;
+    private final UpdateUserUseCase update;
+    private final DeleteUserUseCase delete;
 
-    @Autowired
-    public UserController(CreateUserUseCase createUserUseCase,
-                          GetAllUsersUseCase getAllUsersUseCase,
-                          GetOneUserUseCase getOneUserUseCase,
-                          UpdateUserUseCase updateUserUseCase,
-                          DeleteUserUseCase deleteUserUseCase) {
-        this.createUserUseCase = createUserUseCase;
-        this.getAllUsersUseCase = getAllUsersUseCase;
-        this.getOneUserUseCase = getOneUserUseCase;
-        this.updateUserUseCase = updateUserUseCase;
-        this.deleteUserUseCase = deleteUserUseCase;
+    public UserController(UseCaseFactory useCaseFactory) {
+        this.register = useCaseFactory.createUserUseCase();
+        this.getAll = useCaseFactory.createGetAllUsersUseCase();
+        this.getOne = useCaseFactory.createGetOneUserUseCase();
+        this.update = useCaseFactory.createUpdateUserUseCase();
+        this.delete = useCaseFactory.createDeleteUserUseCase();
     }
 
     @PostMapping
     @Transactional
     public ResponseEntity<UserResponseDto> createUser(@RequestBody @Valid CreateUserDto req, UriComponentsBuilder uriBuilder) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        var entity = createUserUseCase
+        var entity = this.register
                 .execute(
                         req.name(),
                         req.email(),
@@ -59,7 +54,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Page<UserResponseDto>> getAllUsers() {
-        var response = getAllUsersUseCase.execute();
+        var response = this.getAll.execute();
         var list = response.stream()
                 .map(e -> new UserResponseDto(e.getId(), e.getName(), e.getEmail(), e.getCpf(), e.getPhone()))
                 .toList();
@@ -69,7 +64,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getOnUser(@PathVariable Long id) {
-        var entity = getOneUserUseCase.execute(id);
+        var entity = this.getOne.execute(id);
         var dto = new UserResponseDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
 
         return ResponseEntity.ok(dto);
@@ -79,7 +74,7 @@ public class UserController {
     @Transactional
     public ResponseEntity<UserResponseDto> updateUser(@RequestBody UpdateUserDto dto, @PathVariable Long id) {
 
-        var entity = updateUserUseCase.execute(id, dto.email(), dto.password());
+        var entity = this.update.execute(id, dto.email(), dto.password());
 
         var response = new UserResponseDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
         return ResponseEntity.ok(response);
@@ -87,7 +82,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id) {
-        deleteUserUseCase.execute(id);
+        this.delete.execute(id);
         return ResponseEntity.noContent().build();
     }
 }
