@@ -33,4 +33,4 @@ build/
 .vscode/
 
 #.gitignore
-.env
+**/CurdOfUsersWithSolid/.env
