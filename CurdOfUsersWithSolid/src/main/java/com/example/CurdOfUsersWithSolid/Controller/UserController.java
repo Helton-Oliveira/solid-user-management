@@ -3,7 +3,7 @@ package com.example.CurdOfUsersWithSolid.Controller;
 import com.example.CurdOfUsersWithSolid.dtos.CreateUserDto;
 import com.example.CurdOfUsersWithSolid.dtos.UpdateUserDto;
 import com.example.CurdOfUsersWithSolid.dtos.UserResponseDto;
-import com.example.CurdOfUsersWithSolid.useCases.*;
+import com.example.CurdOfUsersWithSolid.useCases.useCasesAbstractions.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
