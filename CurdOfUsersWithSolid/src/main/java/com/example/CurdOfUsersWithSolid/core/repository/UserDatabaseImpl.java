@@ -1,6 +1,7 @@
-package com.example.CurdOfUsersWithSolid.repository;
+package com.example.CurdOfUsersWithSolid.core.repository;
 
-import com.example.CurdOfUsersWithSolid.domain.entity.User;
+import com.example.CurdOfUsersWithSolid.adapters.repository.UserRepository;
+import com.example.CurdOfUsersWithSolid.core.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +17,8 @@ public class UserDatabaseImpl implements Connection {
     public List<User> getAllUsers() {
         return repository.findAllByActiveTrue()
                 .stream()
-                .map(e ->
-                        new User (
-                                e.getId(),
+                .map(e -> new User(
+                                e.loadId(),
                                 e.getName(),
                                 e.getEmail(),
                                 e.getPassword(),
@@ -36,7 +36,7 @@ public class UserDatabaseImpl implements Connection {
 
     @Override
     public User saveUser(User user) {
-        return repository.save(user);
+        return repository.save((User) user);
     }
 
 }

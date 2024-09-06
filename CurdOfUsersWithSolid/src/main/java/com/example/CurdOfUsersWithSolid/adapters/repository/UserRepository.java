@@ -1,6 +1,6 @@
-package com.example.CurdOfUsersWithSolid.repository;
+package com.example.CurdOfUsersWithSolid.adapters.repository;
 
-import com.example.CurdOfUsersWithSolid.domain.entity.User;
+import com.example.CurdOfUsersWithSolid.core.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

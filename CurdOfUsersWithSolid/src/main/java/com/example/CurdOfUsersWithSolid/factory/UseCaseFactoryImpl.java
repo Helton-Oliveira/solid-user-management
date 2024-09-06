@@ -1,6 +1,6 @@
-package com.example.CurdOfUsersWithSolid.useCases.factory;
+package com.example.CurdOfUsersWithSolid.factory;
 
-import com.example.CurdOfUsersWithSolid.useCases.useCasesAbstractions.*;
+import com.example.CurdOfUsersWithSolid.core.useCases.useCasesAbstractions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

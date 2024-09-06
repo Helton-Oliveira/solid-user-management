@@ -1,7 +1,7 @@
-package com.example.CurdOfUsersWithSolid.useCases;
+package com.example.CurdOfUsersWithSolid.core.useCases;
 
-import com.example.CurdOfUsersWithSolid.repository.Connection;
-import com.example.CurdOfUsersWithSolid.useCases.useCasesAbstractions.DeleteUserUseCase;
+import com.example.CurdOfUsersWithSolid.core.repository.Connection;
+import com.example.CurdOfUsersWithSolid.core.useCases.useCasesAbstractions.DeleteUserUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

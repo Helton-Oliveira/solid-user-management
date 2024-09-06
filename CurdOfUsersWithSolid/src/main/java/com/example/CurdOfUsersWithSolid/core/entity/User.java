@@ -1,7 +1,10 @@
-package com.example.CurdOfUsersWithSolid.domain.entity;
+package com.example.CurdOfUsersWithSolid.core.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Map;
 
@@ -53,8 +56,17 @@ public class User {
         }
     }
 
+    public User create(String name, String email, String password, String cpf, String phone) {
+        this.setId(this.getId());
+        return new User(name, email, password, cpf, phone);
+    }
+
     public void delete() {
         this.setActive(false);
+    }
+
+    public Long loadId() {
+        return this.getId();
     }
 }
 

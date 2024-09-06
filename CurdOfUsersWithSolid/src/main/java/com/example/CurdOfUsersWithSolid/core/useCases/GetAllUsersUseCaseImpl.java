@@ -1,8 +1,8 @@
-package com.example.CurdOfUsersWithSolid.useCases;
+package com.example.CurdOfUsersWithSolid.core.useCases;
 
-import com.example.CurdOfUsersWithSolid.domain.entity.User;
-import com.example.CurdOfUsersWithSolid.repository.Connection;
-import com.example.CurdOfUsersWithSolid.useCases.useCasesAbstractions.GetAllUsersUseCase;
+import com.example.CurdOfUsersWithSolid.core.entity.User;
+import com.example.CurdOfUsersWithSolid.core.repository.Connection;
+import com.example.CurdOfUsersWithSolid.core.useCases.useCasesAbstractions.GetAllUsersUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

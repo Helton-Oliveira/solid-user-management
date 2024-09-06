@@ -1,10 +1,11 @@
-package com.example.CurdOfUsersWithSolid.Controller;
+package com.example.CurdOfUsersWithSolid.adapters.Controller;
 
+import com.example.CurdOfUsersWithSolid.core.entity.User;
+import com.example.CurdOfUsersWithSolid.core.useCases.useCasesAbstractions.*;
 import com.example.CurdOfUsersWithSolid.dtos.CreateUserDto;
 import com.example.CurdOfUsersWithSolid.dtos.UpdateUserDto;
 import com.example.CurdOfUsersWithSolid.dtos.UserResponseDto;
-import com.example.CurdOfUsersWithSolid.useCases.factory.UseCaseFactory;
-import com.example.CurdOfUsersWithSolid.useCases.useCasesAbstractions.*;
+import com.example.CurdOfUsersWithSolid.factory.UseCaseFactory;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -44,7 +45,7 @@ public class UserController {
                         req.cpf(),
                         req.phone());
 
-        var dto = new UserResponseDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
+        var dto = new UserResponseDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
 
         var id = dto.getClass().getMethod("id").invoke(dto);
         var uri = uriBuilder.path("/{id}").buildAndExpand(id).toUri();
@@ -56,7 +57,7 @@ public class UserController {
     public ResponseEntity<Page<UserResponseDto>> getAllUsers() {
         var response = this.getAll.execute();
         var list = response.stream()
-                .map(e -> new UserResponseDto(e.getId(), e.getName(), e.getEmail(), e.getCpf(), e.getPhone()))
+                .map(e -> new UserResponseDto(e.loadId(), e.getName(), e.getEmail(), e.getCpf(), e.getPhone()))
                 .toList();
         var page = new PageImpl<>(list);
         return ResponseEntity.ok(page);
@@ -65,7 +66,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getOnUser(@PathVariable Long id) {
         var entity = this.getOne.execute(id);
-        var dto = new UserResponseDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
+        var dto = new UserResponseDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
 
         return ResponseEntity.ok(dto);
     }
@@ -76,7 +77,7 @@ public class UserController {
 
         var entity = this.update.execute(id, dto.email(), dto.password());
 
-        var response = new UserResponseDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
+        var response = new UserResponseDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
         return ResponseEntity.ok(response);
     }
 
