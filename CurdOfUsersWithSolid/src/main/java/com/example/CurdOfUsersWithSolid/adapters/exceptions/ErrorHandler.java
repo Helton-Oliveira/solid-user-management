@@ -58,6 +58,10 @@ public class ErrorHandler {
     public ResponseEntity handleNoShuchElement(NoSuchElementException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Element is not found!");
     }
+    @ExceptionHandler(CustomValidationException.class)
+    public ResponseEntity handleCustomValidation(CustomValidationException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
 
     private record ErrorsData(String field, String message) {
         public ErrorsData(FieldError fieldError) { this(fieldError.getField(), fieldError.getDefaultMessage());}
