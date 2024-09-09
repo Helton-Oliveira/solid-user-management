@@ -68,6 +68,7 @@ public class User {
     public Long loadId() {
         return this.getId();
     }
+
 }
 
 

@@ -1,6 +1,7 @@
 package com.example.CurdOfUsersWithSolid.dtos;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -11,7 +12,7 @@ public record CreateUserDto(
         String email,
         @NotBlank @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{5,}$")
         String password,
-        @NotBlank
+        @NotBlank @Min(11)
         String cpf,
         @NotBlank
         String phone
