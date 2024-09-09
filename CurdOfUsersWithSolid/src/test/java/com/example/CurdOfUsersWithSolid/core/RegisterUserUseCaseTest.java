@@ -28,7 +28,7 @@ public class RegisterUserUseCaseTest {
     @Test
     @DisplayName("Should return error if CPF number is invalid")
     void validNumber() {
-        var user = new User(1L, "George Cunha", "senha123", "george.cunha@example.com", "21309498098", "12345678", true);
+        var user = new User(1L, "George Cunha", "senha123", "george.cunha@example.com", "21309598098", "12345678", true);
 
         CustomValidationException exception = assertThrows(CustomValidationException.class, () -> {
             validation.validate(user.getCpf());
