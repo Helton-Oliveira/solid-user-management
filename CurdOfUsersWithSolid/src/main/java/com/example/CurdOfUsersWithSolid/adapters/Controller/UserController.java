@@ -1,13 +1,13 @@
 package com.example.CurdOfUsersWithSolid.adapters.Controller;
 
-import com.example.CurdOfUsersWithSolid.core.entity.User;
 import com.example.CurdOfUsersWithSolid.core.useCases.useCasesAbstractions.*;
 import com.example.CurdOfUsersWithSolid.dtos.CreateUserDto;
+import com.example.CurdOfUsersWithSolid.adapters.outputDtoAdapter.OutputDto;
 import com.example.CurdOfUsersWithSolid.dtos.UpdateUserDto;
-import com.example.CurdOfUsersWithSolid.dtos.UserResponseDto;
 import com.example.CurdOfUsersWithSolid.factory.UseCaseFactory;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
@@ -25,18 +25,21 @@ public class UserController {
     private final GetAllUsersUseCase getAll;
     private final UpdateUserUseCase update;
     private final DeleteUserUseCase delete;
+    private final OutputDto outputDto;
 
-    public UserController(UseCaseFactory useCaseFactory) {
+    @Autowired
+    public UserController(UseCaseFactory useCaseFactory, OutputDto outputDto) {
         this.register = useCaseFactory.createUserUseCase();
         this.getAll = useCaseFactory.createGetAllUsersUseCase();
         this.getOne = useCaseFactory.createGetOneUserUseCase();
         this.update = useCaseFactory.createUpdateUserUseCase();
         this.delete = useCaseFactory.createDeleteUserUseCase();
+        this.outputDto = outputDto;
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody @Valid CreateUserDto req, UriComponentsBuilder uriBuilder) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public ResponseEntity<?> createUser(@RequestBody @Valid CreateUserDto req, UriComponentsBuilder uriBuilder) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         var entity = this.register
                 .execute(
                         req.name(),
@@ -45,7 +48,7 @@ public class UserController {
                         req.cpf(),
                         req.phone());
 
-        var dto = new UserResponseDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
+        var dto = outputDto.createOutputDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
 
         var id = dto.getClass().getMethod("id").invoke(dto);
         var uri = uriBuilder.path("/{id}").buildAndExpand(id).toUri();
@@ -54,35 +57,35 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserResponseDto>> getAllUsers() {
+    public ResponseEntity<Page<?>> getAllUsers() {
         var response = this.getAll.execute();
         var list = response.stream()
-                .map(e -> new UserResponseDto(e.loadId(), e.getName(), e.getEmail(), e.getCpf(), e.getPhone()))
+                .map(e -> outputDto.createOutputDto(e.loadId(), e.getName(), e.getEmail(), e.getCpf(), e.getPhone()))
                 .toList();
         var page = new PageImpl<>(list);
         return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> getOnUser(@PathVariable Long id) {
+    public ResponseEntity<?> getOnUser(@PathVariable Long id) {
         var entity = this.getOne.execute(id);
-        var dto = new UserResponseDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
+        var dto = outputDto.createOutputDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
 
         return ResponseEntity.ok(dto);
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<UserResponseDto> updateUser(@RequestBody UpdateUserDto dto, @PathVariable Long id) {
+    public ResponseEntity<?> updateUser(@RequestBody UpdateUserDto dto, @PathVariable Long id) {
 
         var entity = this.update.execute(id, dto.email(), dto.password());
 
-        var response = new UserResponseDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
+        var response = outputDto.createOutputDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteUser(@PathVariable Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         this.delete.execute(id);
         return ResponseEntity.noContent().build();
     }
