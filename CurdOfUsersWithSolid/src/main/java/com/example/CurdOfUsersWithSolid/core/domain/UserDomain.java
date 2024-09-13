@@ -15,7 +15,8 @@ public class UserDomain {
     private  Boolean active;
     private Long id;
 
-    public UserDomain(String name, String email, String password, String cpf, String phone) {
+    public UserDomain(Long id, String name, String email, String password, String cpf, String phone) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
