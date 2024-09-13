@@ -1,9 +1,9 @@
 package com.example.CurdOfUsersWithSolid.core.useCases.useCasesAbstractions;
 
-import com.example.CurdOfUsersWithSolid.core.entity.User;
+import com.example.CurdOfUsersWithSolid.core.domain.UserDomain;
 
 import java.util.List;
 
 public interface GetAllUsersUseCase {
-     List<User> execute();
+     List<UserDomain> execute();
 }

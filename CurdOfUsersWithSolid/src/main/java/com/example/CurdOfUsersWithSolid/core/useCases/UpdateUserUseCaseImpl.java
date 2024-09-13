@@ -1,7 +1,7 @@
 package com.example.CurdOfUsersWithSolid.core.useCases;
 
 import com.example.CurdOfUsersWithSolid.core.useCases.useCasesAbstractions.UpdateUserUseCase;
-import com.example.CurdOfUsersWithSolid.core.entity.User;
+import com.example.CurdOfUsersWithSolid.core.domain.UserDomain;
 import com.example.CurdOfUsersWithSolid.core.repository.Connection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
     private Connection connection;
 
     @Override
-    public User execute(Long id, String firsCamp, String secondCamp) {
+    public UserDomain execute(Long id, String firsCamp, String secondCamp) {
         var entityToUpdate = connection.getOneUser(id);
 
         Map<String, String> map = new HashMap<String, String>();

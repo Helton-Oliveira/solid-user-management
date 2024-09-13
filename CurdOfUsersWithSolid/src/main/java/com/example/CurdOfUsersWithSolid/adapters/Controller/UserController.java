@@ -48,7 +48,7 @@ public class UserController {
                         req.cpf(),
                         req.phone());
 
-        var dto = outputDto.createOutputDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
+        var dto = outputDto.createOutputDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
 
         var id = dto.getClass().getMethod("id").invoke(dto);
         var uri = uriBuilder.path("/{id}").buildAndExpand(id).toUri();
@@ -60,7 +60,7 @@ public class UserController {
     public ResponseEntity<Page<?>> getAllUsers() {
         var response = this.getAll.execute();
         var list = response.stream()
-                .map(e -> outputDto.createOutputDto(e.loadId(), e.getName(), e.getEmail(), e.getCpf(), e.getPhone()))
+                .map(e -> outputDto.createOutputDto(e.getId(), e.getName(), e.getEmail(), e.getCpf(), e.getPhone()))
                 .toList();
         var page = new PageImpl<>(list);
         return ResponseEntity.ok(page);
@@ -69,7 +69,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getOnUser(@PathVariable Long id) {
         var entity = this.getOne.execute(id);
-        var dto = outputDto.createOutputDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
+        var dto = outputDto.createOutputDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
 
         return ResponseEntity.ok(dto);
     }
@@ -80,7 +80,7 @@ public class UserController {
 
         var entity = this.update.execute(id, dto.email(), dto.password());
 
-        var response = outputDto.createOutputDto(entity.loadId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
+        var response = outputDto.createOutputDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getCpf(), entity.getPhone());
         return ResponseEntity.ok(response);
     }
 

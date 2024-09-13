@@ -1,7 +1,7 @@
 package com.example.CurdOfUsersWithSolid.core.useCases.useCasesAbstractions;
 
-import com.example.CurdOfUsersWithSolid.core.entity.User;
+import com.example.CurdOfUsersWithSolid.core.domain.UserDomain;
 
 public interface GetOneUserUseCase {
-     User execute(Long id);
+     UserDomain execute(Long id);
 }

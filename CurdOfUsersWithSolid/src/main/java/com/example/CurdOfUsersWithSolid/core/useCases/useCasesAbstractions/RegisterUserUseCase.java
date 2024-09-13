@@ -1,7 +1,7 @@
 package com.example.CurdOfUsersWithSolid.core.useCases.useCasesAbstractions;
 
-import com.example.CurdOfUsersWithSolid.core.entity.User;
+import com.example.CurdOfUsersWithSolid.core.domain.UserDomain;
 
 public interface RegisterUserUseCase {
-    User execute(String name, String email, String password, String cpf, String phone);
+    UserDomain execute(String name, String email, String password, String cpf, String phone);
 }

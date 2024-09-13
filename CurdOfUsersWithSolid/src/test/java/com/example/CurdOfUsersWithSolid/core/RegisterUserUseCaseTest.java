@@ -3,7 +3,7 @@ package com.example.CurdOfUsersWithSolid.core;
 import com.example.CurdOfUsersWithSolid.adapters.encrypt.PasswordEncryptImpl;
 import com.example.CurdOfUsersWithSolid.adapters.encrypt.PasswordEncyption;
 import com.example.CurdOfUsersWithSolid.adapters.exceptions.CustomValidationException;
-import com.example.CurdOfUsersWithSolid.core.entity.User;
+import com.example.CurdOfUsersWithSolid.core.domain.UserDomain;
 import com.example.CurdOfUsersWithSolid.core.useCases.validations.validatingUserRegistration.ValidateCpf;
 import com.example.CurdOfUsersWithSolid.core.useCases.validations.validatingUserRegistration.Validation;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ public class RegisterUserUseCaseTest {
     @Test
     @DisplayName("Should return error if CPF number is invalid")
     void validNumber() {
-        var user = new User(1L, "George Cunha", "senha123", "george.cunha@example.com", "21309598098", "12345678", true);
+        var user = new UserDomain(1L, "George Cunha", "senha123", "george.cunha@example.com", "21309598098", "12345678", true);
 
         CustomValidationException exception = assertThrows(CustomValidationException.class, () -> {
             validation.validate(user.getCpf());
@@ -40,7 +40,7 @@ public class RegisterUserUseCaseTest {
     @Test
     @DisplayName("must encrypt the password")
     void validateEncryption() {
-        var user = new User(1L, "Flavio Delvalle", "senha123", "flavio.delvalle@example.com", "17958851065", "12345678", true);
+        var user = new UserDomain(1L, "Flavio Delvalle", "senha123", "flavio.delvalle@example.com", "17958851065", "12345678", true);
 
         var pass = encryption.encrypt(user.getPassword());
 
